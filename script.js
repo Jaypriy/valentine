@@ -49,14 +49,16 @@ function setupValentineQuestion() {
     function moveNoButton() {
         const container = document.querySelector('.buttons-container');
         const containerRect = container.getBoundingClientRect();
+        const btnRect = noBtn.getBoundingClientRect();
 
-        // Calculate safe boundaries
-        const maxX = containerRect.width - 150;
-        const maxY = 100;
+        // Calculate safe boundaries based on screen size
+        const isMobile = window.innerWidth <= 768;
+        const maxX = isMobile ? containerRect.width - btnRect.width - 20 : containerRect.width - 150;
+        const maxY = isMobile ? 80 : 100;
 
         // Generate random position
-        const randomX = Math.random() * maxX - maxX / 2;
-        const randomY = Math.random() * maxY - maxY / 2;
+        const randomX = (Math.random() - 0.5) * maxX;
+        const randomY = (Math.random() - 0.5) * maxY;
 
         // Add warning emojis around the button
         noBtn.textContent = '⚠️ No ⚠️';
@@ -65,7 +67,7 @@ function setupValentineQuestion() {
         noBtn.style.transform = `translate(${randomX}px, ${randomY}px)`;
 
         // Increase evasion radius to make it harder
-        evasionRadius = Math.min(evasionRadius + 10, 250);
+        evasionRadius = Math.min(evasionRadius + 10, isMobile ? 200 : 250);
     }
 }
 
